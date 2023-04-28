@@ -18,7 +18,7 @@ public class FilmController {
     private final FilmService filmService;
 
     @PostMapping
-    public Film addFilm(@RequestBody @Valid  Film film) {
+    public Film addFilm(@RequestBody @Valid Film film) {
         log.debug("Получен запрос POST /films.\n" + film.toString());
         return filmService.addFilm(film);
     }
@@ -41,6 +41,7 @@ public class FilmController {
         return filmService.getFilmById(filmId);
     }
 
+    @SuppressWarnings("checkstyle:DesignForExtension")
     @PutMapping("/{id}/like/{userId}")
     public void addLike(@PathVariable int id, @PathVariable int userId) {
         log.debug(String.format("Получен запрос PUT films/%d/like/%d", id, userId));
@@ -54,9 +55,12 @@ public class FilmController {
     }
 
     @GetMapping("/popular")
-    public List<Film> getPopular(@RequestParam(defaultValue = "10") int count) {
+    public List<Film> getPopular(@RequestParam(defaultValue = "10") int count,
+                                 @RequestParam(required = false) Integer genreId,
+                                 @RequestParam(defaultValue = "0") int year) {
         log.debug(String.format("Получен запрос GET films/popular на %d фильмов", count));
-        return filmService.getPopular(count);
+        return filmService.getPopular(count, genreId, year);
+
     }
 
     @GetMapping("/director/{directorId}")
