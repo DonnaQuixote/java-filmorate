@@ -38,10 +38,8 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User getById(int id) {
-        if (isExists(id)) {
-            String sql = "SELECT * FROM users WHERE user_id = ?";
-            return jdbcTemplate.queryForObject(sql, this::createUser, id);
-        } else return null;
+        String sql = "SELECT * FROM users WHERE user_id = ?";
+        return jdbcTemplate.queryForObject(sql, this::createUser, id);
     }
 
     @Override
@@ -67,6 +65,13 @@ public class UserDbStorage implements UserStorage {
         throw new NotYetImplementedException("Не поддерживается");
     }
 
+    @Override
+    public boolean isExists(int id) {
+        String sql = "SELECT * FROM users WHERE user_id = ?";
+        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, id);
+        return rows.next();
+    }
+
     private User createUser(ResultSet resultSet, int rowNum) throws SQLException {
         User user = new User();
         user.setId(resultSet.getInt("user_id"));
@@ -81,11 +86,5 @@ public class UserDbStorage implements UserStorage {
     private List<User> getFriends(int id) {
         String sql = "SELECT * FROM users JOIN friends ON users.user_id=friends.user_id WHERE friends.friend_id = ?";
         return jdbcTemplate.query(sql, this::createUser, id);
-    }
-
-    private boolean isExists(int id) {
-        String sql = "SELECT * FROM users WHERE user_id = ?";
-        SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, id);
-        return rows.next();
     }
 }

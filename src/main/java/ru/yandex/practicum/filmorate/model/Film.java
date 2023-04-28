@@ -23,6 +23,7 @@ public class Film {
     private Set<Integer> likes = new TreeSet<>();
     private Set<Genre> genres = new TreeSet<>();
     private Mpa mpa;
+    private Set<Director> directors = new TreeSet<>();
 
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
