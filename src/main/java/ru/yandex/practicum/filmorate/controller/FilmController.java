@@ -41,7 +41,6 @@ public class FilmController {
         return filmService.getFilmById(filmId);
     }
 
-    @SuppressWarnings("checkstyle:DesignForExtension")
     @PutMapping("/{id}/like/{userId}")
     public void addLike(@PathVariable int id, @PathVariable int userId) {
         log.debug(String.format("Получен запрос PUT films/%d/like/%d", id, userId));
