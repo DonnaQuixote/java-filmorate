@@ -21,7 +21,7 @@ public class UserService {
     }
 
     public User updateUser(User user) {
-        if (userStorage.getById(user.getId()) != null) {
+        if (userStorage.isExists(user.getId())) {
             if (user.getName() == null) user.setName(user.getLogin());
             return userStorage.updateUser(user);
         } else throw new NoSuchElementException("Пользователь не найден");
@@ -32,25 +32,25 @@ public class UserService {
     }
 
     public User getUserById(int id) {
-        if (userStorage.getById(id) != null) {
+        if (userStorage.isExists(id)) {
             return userStorage.getById(id);
         } else throw new NoSuchElementException("Пользователь не  найден");
     }
 
     public void addFriend(int firstUser, int secondUser) {
-        if (userStorage.getById(firstUser) != null && userStorage.getById(secondUser) != null) {
+        if (userStorage.isExists(firstUser) && userStorage.isExists(secondUser)) {
             userStorage.addFriend(firstUser, secondUser);
         } else throw new NoSuchElementException("Пользователь не найден");
     }
 
     public void deleteFriend(int firstUser, int secondUser) {
-        if (userStorage.getById(firstUser) != null && userStorage.getById(secondUser) != null) {
+        if (userStorage.isExists(firstUser) && userStorage.isExists(secondUser)) {
         userStorage.deleteFriend(firstUser, secondUser);
         } else throw new NoSuchElementException("Пользователь не найден");
     }
 
     public List<User> getCommonFriends(int firstUser, int secondUser) {
-        if (userStorage.getById(firstUser) != null && userStorage.getById(secondUser) != null) {
+        if (userStorage.isExists(firstUser) && userStorage.isExists(secondUser)) {
             List<Integer> commonFriendsIds = new ArrayList<>(userStorage.getById(firstUser).getFriends());
             commonFriendsIds.retainAll(userStorage.getById(secondUser).getFriends());
             List<User> commonFriends = new ArrayList<>();
@@ -62,7 +62,7 @@ public class UserService {
     }
 
     public List<User> getFriends(int id) {
-        if (userStorage.getById(id) != null) {
+        if (userStorage.isExists(id)) {
             Set<Integer> friendsIds = userStorage.getById(id).getFriends();
             List<User> friends = new ArrayList<>();
             for (int friendsId : friendsIds) {
