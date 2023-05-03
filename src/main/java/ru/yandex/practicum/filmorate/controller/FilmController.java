@@ -79,7 +79,7 @@ public class FilmController {
         log.debug(String.format("Получен запрос GET /films/common?userId=%d&friendId=%d", userId, friendId));
         return filmService.getCommonFilms(userId, friendId);
     }
-        
+
     @GetMapping("/search")
     public List<Film> getFilmsByQuery(@RequestParam String query, @RequestParam List<String> by) {
         log.debug(String.format("Получен запрос GET /films/search?query=%s&by=%s", query, by));
